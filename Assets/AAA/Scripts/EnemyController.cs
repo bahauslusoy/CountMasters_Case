@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Ambrosia.EventBus;
 
 public class EnemyController : MonoBehaviour
 {
@@ -38,8 +39,8 @@ public class EnemyController : MonoBehaviour
     {
          if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("GELDİMİ");
-
+            
+            EventBus<EventCamControl>.Emit(this, new EventCamControl());
             //GameObject.FindWithTag("GameManager").GetComponent<GameManager>().DestroyEffect(gameObject.transform);
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().StainEffect(gameObject.transform,true);
             gameObject.SetActive(false);
