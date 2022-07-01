@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     public bool isGameFinished; //OYUN BİTTİ Mİ
     bool isFinished;  // SONA GELDİK Mİ
+
+    public CharController charControl;
     void Start()
     {
         EnemyCreate();
@@ -45,41 +47,43 @@ public class GameManager : MonoBehaviour
     {
 
 
-        if(isFinished)
+        if (isFinished)
         {
- if (characterCount == 1 || HowManyEnemies ==0)
-        {
-            isGameFinished = true;
-            foreach( var item in enemies)
+            if (characterCount == 1 || HowManyEnemies == 0)
             {
-                if(item.activeInHierarchy)
+                isGameFinished = true;
+                foreach (var item in enemies)
                 {
-                     item.GetComponent<Animator>().SetTrigger("NoAttack");
+                    if (item.activeInHierarchy)
+                    {
+                        item.GetComponent<Animator>().SetTrigger("NoAttack");
+                    }
                 }
-            }
-              foreach( var item in characters)
-            {
-                if(item.activeInHierarchy)
+                foreach (var item in characters)
                 {
-                     item.GetComponent<Animator>().SetTrigger("Stop");
+                    if (item.activeInHierarchy)
+                    {
+                        item.GetComponent<Animator>().SetTrigger("Stop");
+                    }
                 }
-            }
 
-            mainCharacter.GetComponent<Animator>().SetTrigger("Stop");
+                mainCharacter.GetComponent<Animator>().SetTrigger("Stop");
 
-            if(characterCount < HowManyEnemies || characterCount == HowManyEnemies )
-            {
-                Debug.Log("Kaybettin");
-            }
-            else
-            {
-                Debug.Log("lose");
+                if (characterCount < HowManyEnemies || characterCount == HowManyEnemies)
+                {
+                    Debug.Log("Kaybettin");
+                    charControl.FailPanel.SetActive(true);
+                }
+                else
+                {
+                    Debug.Log("win");
+
+                }
+
             }
 
         }
 
-        }
-       
     }
 
     public void playerManagement(string process, int incomeNumber, Transform pos)
@@ -139,11 +143,11 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-            if(!isGameFinished)
-            {
-                    AttackSituation();
-            }
-            
+        if (!isGameFinished)
+        {
+            AttackSituation();
+        }
+
 
     }
     public void EnemyTrigger()
@@ -155,7 +159,7 @@ public class GameManager : MonoBehaviour
                 item.GetComponent<EnemyController>().EnemyAttackAnim();
             }
         }
-        isFinished = true ;
+        isFinished = true;
         AttackSituation();
     }
 }

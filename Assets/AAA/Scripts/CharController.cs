@@ -6,54 +6,95 @@ using UnityEngine.UI;
 
 public class CharController : MonoBehaviour
 {
+    enum State
+    {
+        preGame,
+
+        inGame,
+
+    }
     public GameManager gameManager;
+    // Animator camAnim;
 
-
+    private State _currentState = State.preGame;
     public bool isFinished;
+
+    private float speed;
 
     [SerializeField] private GameObject mainCharArrivalPoint;
     public Slider slider;
     public GameObject passingPoint;
+    [SerializeField] private GameObject StartPanel;
+    public GameObject FailPanel;
+    private float count = 0;
+
+    Animator CharAnim;
     void Start()
     {
         float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
         slider.maxValue = distance;
+        // camAnim.GetComponent<Animator>();
+        StartPanel.SetActive(true);
+        speed = 0;
+        CharAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        
+        switch (_currentState)
+        {
+            case State.preGame:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    speed = 0;
+                    StartPanel.SetActive(false);
+                    CharAnim.SetTrigger("Start");
+                    _currentState = State.inGame;
+                    count ++;
+                }
 
-        if (isFinished)
-        {
-            transform.position = Vector3.Lerp(transform.position, mainCharArrivalPoint.transform.position, 0.015f);
-        }
-        else
-        {
-            float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
-            slider.value= distance;
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                if (Input.GetAxis("Mouse X") < 0)
+                break;
+
+            case State.inGame:
+                if (isFinished)
                 {
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - 0.1f, transform.position.y, transform.position.z), 0.3f);
+                    transform.position = Vector3.Lerp(transform.position, mainCharArrivalPoint.transform.position, 0.015f);
+
                 }
-                if (Input.GetAxis("Mouse X") > 0)
+                else
                 {
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z), 0.3f);
+                    float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
+                    slider.value = distance;
+
+                    if (!isFinished)
+                    {
+                        speed = 1.5f;
+                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                    }
+
+                    if (Input.GetKey(KeyCode.Mouse0))
+                    {
+                        if (Input.GetAxis("Mouse X") < 0)
+                        {
+                            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - 0.1f, transform.position.y, transform.position.z), 0.3f);
+                        }
+                        if (Input.GetAxis("Mouse X") > 0)
+                        {
+                            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z), 0.3f);
+                        }
+                    }
                 }
-            }
+                break;
+
         }
+
+
     }
 
     private void FixedUpdate()
     {
-        if (!isFinished)
-        {
-            transform.Translate(Vector3.forward * 1.5f * Time.deltaTime);
-        }
 
     }
     private void OnTriggerEnter(Collider other)
@@ -68,6 +109,7 @@ public class CharController : MonoBehaviour
         {
             gameManager.EnemyTrigger();
             isFinished = true;
+            //camAnim.Play("mainCamera");
         }
     }
     private void OnCollisionEnter(Collision col)  // for pole movement system
