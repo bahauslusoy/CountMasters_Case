@@ -7,6 +7,7 @@ namespace Management_
 {
 public class MathLibrary : MonoBehaviour
 {
+    
     public static void Multiply(int incomeNumber, List<GameObject> characters, Transform pos)
     
     {
