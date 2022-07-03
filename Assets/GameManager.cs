@@ -5,13 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-
-    public bool isGameFinished; //OYUN BİTTİ Mİ
-    bool isFinished;  // SONA GELDİK Mİ
     public List<GameObject> stainEffects;
     public List<GameObject> destroyEffects;
     public List<GameObject> enemyStainEffects;
-    public CharController charControl;
+
     void Start()
 
     {
@@ -22,43 +19,7 @@ public class GameManager : MonoBehaviour
     {
 
     }
-    /*void AttackSituation()
-    {
-        if (isFinished)
-        {
 
-            isGameFinished = true;
-            foreach (var item in enemies)
-            {
-                if (item.activeInHierarchy)
-                {
-                    item.GetComponent<Animator>().SetTrigger("NoAttack");
-                }
-            }
-            foreach (var item in characters)
-            {
-                if (item.activeInHierarchy)
-                {
-                    item.GetComponent<Animator>().SetTrigger("Stop");
-                }
-            }
-
-            mainCharacter.GetComponent<Animator>().SetTrigger("Stop");
-
-            if (characterCount < HowManyEnemies || characterCount == HowManyEnemies)
-            {
-                Debug.Log("Kaybettin");
-                charControl.FailPanel.SetActive(true);
-            }
-            else
-            {
-                charControl.SuccessPanel.SetActive(true);
-                Debug.Log("win");
-
-            }
-        }
-
-    }*/
 
     public void DestroyEffect(Transform pos)
     {
@@ -105,16 +66,5 @@ public class GameManager : MonoBehaviour
 
 
     }
-    /*public void EnemyTrigger()
-    {
-        foreach (var item in enemies)
-        {
-            if (item.activeInHierarchy)
-            {
-                item.GetComponent<EnemyController>().EnemyAttackAnim();
-            }
-        }
-        isFinished = true;
-        AttackSituation();
-    }*/
+
 }
