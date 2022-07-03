@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class JumpCpntroller : MonoBehaviour
 {
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))  
+        if(other.CompareTag("SubPlayer"))  
         {
-            other.GetComponent<Rigidbody>().AddForce(new Vector3(0,20,0),ForceMode.Impulse);
+            //other.GetComponent<SubCharacterController>().Jump();
+
+            other.GetComponent<Rigidbody>().AddForce(Vector3.up * 100f, ForceMode.Impulse);
         }  
     }
 }
