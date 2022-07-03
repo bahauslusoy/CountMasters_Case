@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Ambrosia.EventBus;
+using System;
 
 public class CharController : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class CharController : MonoBehaviour
 
         inGame,
 
+        finishGame,
+
+        failGame,
+
     }
     public GameManager gameManager;
     // Animator camAnim;
@@ -19,48 +24,73 @@ public class CharController : MonoBehaviour
     private State _currentState = State.preGame;
     public bool isFinished;
 
-    private float speed;
+    public float speed;
 
-    [SerializeField] private GameObject mainCharArrivalPoint;
+    [SerializeField] private GameObject charArrivalPoint;
     public Slider slider;
     public GameObject passingPoint;
     [SerializeField] private GameObject StartPanel;
     public GameObject FailPanel;
-    private float count = 0;
 
-    Animator CharAnim;
-    void Start()
+    public GameObject SuccessPanel;
+    private float count = 0;
+    [SerializeField] private LayerMask Wall;
+    private PlayerCount playerCount;
+
+    private SubCharacterController subCharControl;
+
+    private void OnEnable()
     {
-        float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
-        slider.maxValue = distance;
-        // camAnim.GetComponent<Animator>();
-        StartPanel.SetActive(true);
-        speed = 0;
-        CharAnim = GetComponent<Animator>();
+        EventBus<EventFinish>.AddListener(FinishGame);
+    }
+    private void OnDisable()
+    {
+        EventBus<EventFinish>.RemoveListener(FinishGame);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FinishGame(object sender, EventFinish @event)
     {
 
+        _currentState = State.finishGame;
+
+    }
+
+    void Start()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        playerCount = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCount>();
+        float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
+        slider.maxValue = distance;
+        //camAnim.GetComponent<Animator>();
+        StartPanel.SetActive(true);
+        speed = 0;
+        // subCharControl.CharAnim = GetComponent<Animator>();
+        Time.timeScale = 0;
+
+    }
+
+    void Update()
+    {
         switch (_currentState)
         {
             case State.preGame:
                 if (Input.GetMouseButtonDown(0))
                 {
+                    Time.timeScale = 1;
                     speed = 0;
                     StartPanel.SetActive(false);
-                    CharAnim.SetTrigger("Start");
+                    // subCharControl.CharAnim.SetTrigger("Start");
                     _currentState = State.inGame;
-                    count ++;
+                    count++;
                 }
 
                 break;
 
             case State.inGame:
+
                 if (isFinished)
                 {
-                    transform.position = Vector3.Lerp(transform.position, mainCharArrivalPoint.transform.position, 0.015f);
+                    transform.position = Vector3.Lerp(transform.position, charArrivalPoint.transform.position, 0.015f);
 
                 }
                 else
@@ -88,38 +118,31 @@ public class CharController : MonoBehaviour
                 }
                 break;
 
+            case State.finishGame:
+
+                SuccessPanel.SetActive(true);
+                speed = 0;
+                break;
+
+                /*case State.failGame:
+                    speed = 0;
+                    FailPanel.SetActive(true);
+
+                    break;*/
+
         }
-
-
     }
-
-    private void FixedUpdate()
+    public void FailGame()
     {
-
+        _currentState = State.failGame;
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Multiply") || other.CompareTag("Addition"))
-        {
-            int nmbr = int.Parse(other.name);
-            gameManager.playerManagement(other.tag, nmbr, other.transform);
 
-        }
-        else if (other.gameObject.CompareTag("EnemyTrigg"))
-        {
-            gameManager.EnemyTrigger();
-            isFinished = true;
-            //camAnim.Play("mainCamera");
-        }
-    }
+
     private void OnCollisionEnter(Collision col)  // for pole movement system
     {
         if (col.gameObject.CompareTag("Pole"))
         {
-
-            //Debug.Log("Girdin mi");
             transform.position = new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z);
         }
     }
 }
-
