@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "com.ambrosia.eventbus": "1.0.0",
     "com.unity.cinemachine": "2.6.15",
     "com.unity.collab-proxy": "1.7.1",
+    "com.unity.device-simulator": "3.0.3-preview",
     "com.unity.ide.rider": "2.0.7",
     "com.unity.ide.visualstudio": "2.0.11",
     "com.unity.ide.vscode": "1.2.3",
@@ -39,8 +41,7 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.ambrosia.eventbus": "1.0.0"
+    "com.unity.modules.xr": "1.0.0"
   },
   "scopedRegistries": [
     {
