@@ -8,7 +8,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private Animator camAnimator;
-   //public GameObject target;
+    //public GameObject target;
     //public Vector3 offset;
     void Start()
     {
@@ -18,20 +18,27 @@ public class CameraController : MonoBehaviour
     private void OnEnable()
     {
         EventBus<EventCamControl>.AddListener(CameraChange);
+        EventBus<EventFinishCam>.AddListener(NewCameraChange);
     }
     private void OnDisable()
     {
         EventBus<EventCamControl>.RemoveListener(CameraChange);
+        EventBus<EventFinishCam>.RemoveListener(NewCameraChange);
+    }
+
+    private void NewCameraChange(object sender, EventFinishCam @event)
+    {
+        camAnimator.Play("mainCam");
     }
 
     private void CameraChange(object sender, EventCamControl @event)
     {
         camAnimator.Play("finishCam");
-        Debug.Log("cam");
+
     }
 
     void LateUpdate()
     {
-       // this.transform.position = Vector3.Lerp(transform.position, target.transform.position + offset, Time.deltaTime);
+        // this.transform.position = Vector3.Lerp(transform.position, target.transform.position + offset, Time.deltaTime);
     }
 }
