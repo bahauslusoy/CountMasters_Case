@@ -30,14 +30,15 @@ public class CharController : MonoBehaviour
     public Slider slider;
     public GameObject passingPoint;
     [SerializeField] private GameObject StartPanel;
-    public GameObject FailPanel;
 
     public GameObject SuccessPanel;
     private float count = 0;
-    [SerializeField] private LayerMask Wall;
+
     private PlayerCount playerCount;
 
     private SubCharacterController subCharControl;
+
+    private AnimatorControl animatorControl;
 
     private void OnEnable()
     {
@@ -82,6 +83,7 @@ public class CharController : MonoBehaviour
                     // subCharControl.CharAnim.SetTrigger("Start");
                     _currentState = State.inGame;
                     count++;
+                   //animatorControl.charAnim.SetTrigger("Start");
                 }
 
                 break;
