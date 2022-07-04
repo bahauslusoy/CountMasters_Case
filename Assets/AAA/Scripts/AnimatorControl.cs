@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimatorControl : MonoBehaviour
 {
-    private Animator charAnim;
+    public Animator charAnim;
     void Start()
     {
         charAnim = GetComponent<Animator>();

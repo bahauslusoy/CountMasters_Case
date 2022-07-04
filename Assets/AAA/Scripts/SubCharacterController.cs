@@ -11,13 +11,13 @@ public class SubCharacterController : MonoBehaviour
     private Transform center;
     private Rigidbody rb;
 
-    public Image dangerImage;
+    //public Image dangerImage;
 
     //private bool isFinished;
     public Animator CharAnim;
     void Start()
     {
-        dangerImage.enabled = false;
+        //dangerImage.enabled = false;
         CharAnim = GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         playerCount = GameObject.Find("Player").GetComponent<PlayerCount>();
@@ -43,7 +43,7 @@ public class SubCharacterController : MonoBehaviour
             playerCount.CharDead();
             gameObject.SetActive(false);
             playerCount.characterList.Remove(gameObject);
-            StartCoroutine(DangerActive());
+           // StartCoroutine(DangerActive());
 
         }
 
@@ -63,10 +63,10 @@ public class SubCharacterController : MonoBehaviour
 
         }
     }
-    public IEnumerator DangerActive()
+   /* public IEnumerator DangerActive()
     {
         dangerImage.enabled = true;
         yield return new WaitForSeconds(0.1f);
         dangerImage.enabled = false ;
-    }
+    }*/
 }
