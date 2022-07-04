@@ -11,9 +11,10 @@ public class SubCharacterController : MonoBehaviour
     private Rigidbody rb;
 
     //private bool isFinished;
-    //public Animator CharAnim;
+    public Animator CharAnim;
     void Start()
     {
+        CharAnim = GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         playerCount = GameObject.Find("Player").GetComponent<PlayerCount>();
         charController = transform.parent.GetComponent<CharController>();
@@ -28,7 +29,7 @@ public class SubCharacterController : MonoBehaviour
 
     }
 
-   
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Obstacle"))
@@ -36,19 +37,23 @@ public class SubCharacterController : MonoBehaviour
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().DestroyEffect(gameObject.transform);
             playerCount.CharDead();
             gameObject.SetActive(false);
+            playerCount.characterList.Remove(gameObject);
         }
 
         else if (other.gameObject.CompareTag("Saw"))
         {
-            playerCount.CharDead();
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().DestroyEffect(gameObject.transform);
+            playerCount.CharDead();
             gameObject.SetActive(false);
+            playerCount.characterList.Remove(gameObject);
         }
         else if (other.gameObject.CompareTag("Hammer"))
         {
             playerCount.CharDead();
             gameObject.SetActive(false);
+            playerCount.characterList.Remove(gameObject);
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().StainEffect(gameObject.transform, true);
+            
         }
     }
 }
