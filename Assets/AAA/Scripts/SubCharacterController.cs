@@ -39,7 +39,6 @@ public class SubCharacterController : MonoBehaviour
         if (other.gameObject.CompareTag("Obstacle"))
         {
 
-
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().DestroyEffect(gameObject.transform);
             playerCount.CharDead();
             gameObject.SetActive(false);
