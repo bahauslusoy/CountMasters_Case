@@ -11,7 +11,7 @@ public class JumpCpntroller : MonoBehaviour
         {
             //other.GetComponent<SubCharacterController>().Jump();
 
-            other.GetComponent<Rigidbody>().AddForce(Vector3.up * 100f, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(Vector3.up * 30f, ForceMode.Impulse);
         }  
     }
 }
