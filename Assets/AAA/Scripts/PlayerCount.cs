@@ -6,22 +6,34 @@ using TMPro;
 public class PlayerCount : MonoBehaviour
 {
     private int count = 1;
-    private CharController charController;
+
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject failPanel;
     public TextMeshProUGUI playerCountText;
 
     public List<GameObject> characterList = new List<GameObject>();
 
-     void Start()
+    void Start()
+    {
+
+    }
+    void Update()
     {
         playerCountText.text = characterList.Count.ToString();
+        
+        
+           // Destroy(playerCountText);
+        
+
+
     }
 
     private void GameLost()
     {
+        Destroy(playerCountText.transform.parent.gameObject);
         failPanel.SetActive(true);
         Time.timeScale = 0;
+
 
         Debug.Log("Game Lost");
     }
