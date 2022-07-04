@@ -22,11 +22,13 @@ public class CharController : MonoBehaviour
     // Animator camAnim;
 
     private State _currentState = State.preGame;
-    public bool isFinished;
+    //public bool isFinished;
 
-    public float speed;
+    private float speed;
 
-    [SerializeField] private GameObject charArrivalPoint;
+    private float HorSpeed;
+
+    // [SerializeField] private GameObject charArrivalPoint;
     public Slider slider;
     public GameObject passingPoint;
     [SerializeField] private GameObject StartPanel;
@@ -36,9 +38,10 @@ public class CharController : MonoBehaviour
 
     private PlayerCount playerCount;
 
-    private SubCharacterController subCharControl;
+    Vector3 FirstPos, endPos;
 
     private AnimatorControl animatorControl;
+    private SubCharacterController subCharacterController;
 
     private void OnEnable()
     {
@@ -79,51 +82,78 @@ public class CharController : MonoBehaviour
                 {
                     Time.timeScale = 1;
                     speed = 0;
+                    HorSpeed = 0;
                     StartPanel.SetActive(false);
                     // subCharControl.CharAnim.SetTrigger("Start");
                     _currentState = State.inGame;
                     count++;
-                   //animatorControl.charAnim.SetTrigger("Start");
+                    //animatorControl.charAnim.SetTrigger("Start");
                 }
 
                 break;
 
             case State.inGame:
 
-                if (isFinished)
+                /*if (isFinished)
                 {
                     transform.position = Vector3.Lerp(transform.position, charArrivalPoint.transform.position, 0.015f);
 
-                }
-                else
+                }*/
+                //else
+                // {
+                float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
+                slider.value = distance;
+
+                //if (!isFinished)
+                // {
+                speed = 1.5f;
+                transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                // }
+
+                /*if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
-                    slider.value = distance;
-
-                    if (!isFinished)
+                    if (Input.GetAxis("Mouse X") < 0)
                     {
-                        speed = 1.5f;
-                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - 0.1f, transform.position.y, transform.position.z), 0.3f);
                     }
-
-                    if (Input.GetKey(KeyCode.Mouse0))
+                    if (Input.GetAxis("Mouse X") > 0)
                     {
-                        if (Input.GetAxis("Mouse X") < 0)
-                        {
-                            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - 0.1f, transform.position.y, transform.position.z), 0.3f);
-                        }
-                        if (Input.GetAxis("Mouse X") > 0)
-                        {
-                            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z), 0.3f);
-                        }
+                        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z), 0.3f);
                     }
+                }*/
+                if (Input.GetMouseButtonDown(0))
+                {
+                    FirstPos = Input.mousePosition;
                 }
+                else if (Input.GetMouseButton(0))
+                {
+                    endPos = Input.mousePosition;
+
+                    float differenceX = endPos.x - FirstPos.x;
+
+                    HorSpeed = 0.01f;
+
+                    transform.Translate(differenceX * HorSpeed * Time.deltaTime, 0, 0);
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    FirstPos = Vector3.zero;
+                    endPos = Vector3.zero;
+                }
+
+                float Xposition = Mathf.Clamp(transform.position.x, -1.2f, 1.2f);
+                transform.position = new Vector3(Xposition, transform.position.y, transform.position.z);
+                //}
                 break;
 
             case State.finishGame:
 
+                //subCharacterController.CharAnim.SetTrigger("Win");
                 SuccessPanel.SetActive(true);
                 speed = 0;
+                HorSpeed = 0;
+                Time.timeScale = 0;
                 break;
 
                 /*case State.failGame:
@@ -134,17 +164,5 @@ public class CharController : MonoBehaviour
 
         }
     }
-    public void FailGame()
-    {
-        _currentState = State.failGame;
-    }
 
-
-    private void OnCollisionEnter(Collision col)  // for pole movement system
-    {
-        if (col.gameObject.CompareTag("Pole"))
-        {
-            transform.position = new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z);
-        }
-    }
 }
