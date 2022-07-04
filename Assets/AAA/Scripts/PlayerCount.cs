@@ -12,19 +12,15 @@ public class PlayerCount : MonoBehaviour
     public TextMeshProUGUI playerCountText;
 
     public List<GameObject> characterList = new List<GameObject>();
+    public GameObject dangerImage;
 
     void Start()
     {
-
+        dangerImage.SetActive(false);
     }
     void Update()
     {
         playerCountText.text = characterList.Count.ToString();
-        
-        
-           // Destroy(playerCountText);
-        
-
 
     }
 
@@ -34,12 +30,12 @@ public class PlayerCount : MonoBehaviour
         failPanel.SetActive(true);
         Time.timeScale = 0;
 
-
-        Debug.Log("Game Lost");
     }
 
     public void CharDead()
     {
+
+        StartCoroutine(DangerActive());
         count--;
 
         if (count == 0)
@@ -75,7 +71,13 @@ public class PlayerCount : MonoBehaviour
     {
         Vector3 pos = Random.insideUnitSphere * .2f;
         Vector3 newPos = transform.position + pos;
-        newPos.y = 0.3f;
+        newPos.y = 0f;
         return newPos;
+    }
+    public IEnumerator DangerActive()
+    {
+        dangerImage.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        dangerImage.SetActive(false);
     }
 }
