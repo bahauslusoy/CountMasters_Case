@@ -13,7 +13,7 @@ public class Gate : MonoBehaviour
 
     public SpawnerState currentMathState;
     private PlayerCount playerCount;
-    //[SerializeField] private GameObject sizeText;
+
     private SpriteRenderer spriteRenderer;
     public int size;
     public static bool isGateActive = true;
@@ -25,22 +25,10 @@ public class Gate : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    /*private void Start()
-    {
-        switch(currentMathState)
-        {
-            case SpawnerState.additive:
-                sizeText.GetComponent<TextMeshPro>().text = "+" + size.ToString();
-                break;
-            case SpawnerState.multiplier:
-                sizeText.GetComponent<TextMeshPro>().text = "x" + size.ToString();
-                break;
-        }
-    }*/
 
     private void OnTriggerEnter(Collider other)
     {
-        if(isGateActive && other.tag == "SubPlayer")
+        if (isGateActive && other.tag == "SubPlayer")
         {
             spriteRenderer.enabled = false;
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -52,7 +40,7 @@ public class Gate : MonoBehaviour
                     playerCount.Add(size);
                     break;
                 case SpawnerState.multiplier:
-                    //int multiplierSize = playerCount.characterList.Count * size - playerCount.characterList.Count;
+
                     playerCount.Multiply(size);
                     break;
             }
