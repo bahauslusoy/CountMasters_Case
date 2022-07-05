@@ -5,14 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class FailPanel : MonoBehaviour
 {
-      public void LevelRestart()
+    public void LevelRestart()
     {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void NextLevel()
     {
-
-         Scene GameScene2 = SceneManager.GetActiveScene();
-          SceneManager.LoadScene(GameScene2.buildIndex + 1);
+        Scene GameScene2 = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(GameScene2.buildIndex + 1);
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using EZCameraShake;
+using Ambrosia.EventBus;
+using System;
 
 public class SubCharacterController : MonoBehaviour
 {
@@ -10,7 +12,22 @@ public class SubCharacterController : MonoBehaviour
     private CharController charController;
     private Transform center;
     private Rigidbody rb;
-    private Animator CharAnim;
+    public Animator CharAnim;
+
+     private void OnEnable()
+    {
+        EventBus<EventFinish>.AddListener(Finish);
+    }
+    private void OnDisable()
+    {
+        EventBus<EventFinish>.RemoveListener(Finish);
+    }
+
+    private void Finish(object sender, EventFinish @event)
+    {
+        CharAnim.SetTrigger("Win");
+    }
+
     void Start()
     {
         CharAnim = GetComponent<Animator>();
@@ -44,15 +61,16 @@ public class SubCharacterController : MonoBehaviour
             playerCount.CharDead();
             gameObject.SetActive(false);
             playerCount.characterList.Remove(gameObject);
-            CameraShaker.Instance.ShakeOnce(2f, 2f, .1f, 1f);
+            CameraShaker.Instance.ShakeOnce(1.5f, 1.5f, .1f, 1f);
         }
         else if (other.gameObject.CompareTag("Hammer"))
         {
+            Vector3 newPosi = new Vector3(transform.position.x, 0.25f , transform.position.z);
             playerCount.CharDead();
             gameObject.SetActive(false);
             playerCount.characterList.Remove(gameObject);
-            GameObject.FindWithTag("GameManager").GetComponent<GameManager>().StainEffect(gameObject.transform, true);
-            CameraShaker.Instance.ShakeOnce(2f, 2f, .1f, 1f);
+            GameObject.FindWithTag("GameManager").GetComponent<GameManager>().StainEffect(newPosi, true);
+            //CameraShaker.Instance.ShakeOnce(2f, 2f, .1f, 1f);
 
         }
     }

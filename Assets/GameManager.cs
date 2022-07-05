@@ -32,11 +32,11 @@ public class GameManager : MonoBehaviour
                 item.transform.position = pos.position;
                 item.GetComponent<ParticleSystem>().Play();
                 break;
-            }
+            }  
         }
     }
 
-    public void StainEffect(Transform pos, bool situation = false)
+    public void StainEffect(Vector3 pos, bool situation = false)
     {
         foreach (var item in stainEffects)
         {
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             {
 
                 item.SetActive(true);
-                item.transform.position = pos.position;
+                item.transform.position = pos;
                 item.GetComponent<ParticleSystem>().Play();
 
             }

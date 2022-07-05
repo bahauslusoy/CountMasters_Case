@@ -19,16 +19,14 @@ public class CharController : MonoBehaviour
 
     }
     public GameManager gameManager;
-    // Animator camAnim;
+     Animator camAnim;
 
     private State _currentState = State.preGame;
-    //public bool isFinished;
 
     private float speed;
 
     private float HorSpeed;
 
-    // [SerializeField] private GameObject charArrivalPoint;
     public Slider slider;
     public GameObject passingPoint;
     [SerializeField] private GameObject StartPanel;
@@ -94,33 +92,13 @@ public class CharController : MonoBehaviour
 
             case State.inGame:
 
-                /*if (isFinished)
-                {
-                    transform.position = Vector3.Lerp(transform.position, charArrivalPoint.transform.position, 0.015f);
 
-                }*/
-                //else
-                // {
                 float distance = Vector3.Distance(transform.position, passingPoint.transform.position);
                 slider.value = distance;
 
-                //if (!isFinished)
-                // {
-                speed = 1.5f;
+                speed = 2f;
                 transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                // }
 
-                /*if (Input.GetKey(KeyCode.Mouse0))
-                {
-                    if (Input.GetAxis("Mouse X") < 0)
-                    {
-                        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - 0.1f, transform.position.y, transform.position.z), 0.3f);
-                    }
-                    if (Input.GetAxis("Mouse X") > 0)
-                    {
-                        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z), 0.3f);
-                    }
-                }*/
                 if (Input.GetMouseButtonDown(0))
                 {
                     FirstPos = Input.mousePosition;
@@ -129,18 +107,17 @@ public class CharController : MonoBehaviour
                 {
                     endPos = Input.mousePosition;
 
-                    float differenceX = endPos.x - FirstPos.x;
+                    float differenceX = (((endPos.x - FirstPos.x) * Time.deltaTime) * 1080 / Screen.width) * HorSpeed;
 
                     HorSpeed = 0.01f;
+                    var currentPosition = transform.position;
+                    var targetPosition = new Vector3(currentPosition.x + differenceX, currentPosition.y, currentPosition.z);
+                    transform.position = targetPosition;
 
-                    transform.Translate(differenceX * HorSpeed * Time.deltaTime, 0, 0);
+
                 }
 
-                if (Input.GetMouseButtonUp(0))
-                {
-                    FirstPos = Vector3.zero;
-                    endPos = Vector3.zero;
-                }
+
 
                 float Xposition = Mathf.Clamp(transform.position.x, -1.2f, 1.2f);
                 transform.position = new Vector3(Xposition, transform.position.y, transform.position.z);
@@ -153,7 +130,7 @@ public class CharController : MonoBehaviour
                 SuccessPanel.SetActive(true);
                 speed = 0;
                 HorSpeed = 0;
-                Time.timeScale = 0;
+                
                 break;
 
                 /*case State.failGame:

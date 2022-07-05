@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class EnemyPrefabs : MonoBehaviour
 {
@@ -30,11 +31,15 @@ public class EnemyPrefabs : MonoBehaviour
     {
         if (other.gameObject.CompareTag("SubPlayer") && !kill)
         {
-            GameObject.FindWithTag("GameManager").GetComponent<GameManager>().StainEffect(gameObject.transform, true);
+            
+            Vector3 newPosi = new Vector3(transform.position.x, 0.25f, transform.position.z);
+            GameObject.FindWithTag("GameManager").GetComponent<GameManager>().StainEffect(newPosi, true);
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().EnemyStainEffect(gameObject.transform, true);
             playerCount.characterList.Remove(other.gameObject);
             playerCount.CharDead();
             Destroy(other.gameObject);
+           // CameraShaker.Instance.ShakeOnce(1.5f, 1.5f, .1f, 1f);
+
 
             enemyCount.enemies.Remove(gameObject);
             Destroy(gameObject);

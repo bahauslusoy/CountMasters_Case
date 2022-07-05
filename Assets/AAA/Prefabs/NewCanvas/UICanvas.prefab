@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 1064720279853597392}
   - component: {fileID: 1748308220159454285}
   - component: {fileID: 1128436152657396500}
-  - component: {fileID: 1803469319323282867}
+  - component: {fileID: 2369682138802643826}
   m_Layer: 5
   m_Name: FailPanel
   m_TagString: Untagged
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1803469319323282867
+--- !u!114 &2369682138802643826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -829,7 +829,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1803469319323282867}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FailPanel, Assembly-CSharp
         m_MethodName: NextLevel
         m_Mode: 1
@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1803469319323282867}
+      - m_Target: {fileID: 2369682138802643826}
         m_TargetAssemblyTypeName: FailPanel, Assembly-CSharp
         m_MethodName: LevelRestart
         m_Mode: 1

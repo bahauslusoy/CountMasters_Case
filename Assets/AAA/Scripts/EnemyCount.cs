@@ -33,9 +33,9 @@ public class EnemyCount : MonoBehaviour
     public void SpawnEnemy()
     {
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
-            GameObject newEnemy = Instantiate(enemy, EnemyPosition(), Quaternion.identity, transform);
+            GameObject newEnemy = Instantiate(enemy, EnemyPosition(), Quaternion.identity,transform);
             enemies.Add(newEnemy);
         }
     }
